@@ -1,0 +1,7 @@
+{
+  "name": "robot",
+  "dependencies": {
+    "requirejs": "~2.1.14",
+    "kineticjs": "~5.1.0"
+  }
+}
