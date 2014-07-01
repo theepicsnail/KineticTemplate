@@ -1,8 +1,20 @@
 {
-  "name": "robot",
+  "name": "fuck",
+  "version": "0.0.0",
+  "authors": [
+    "theepicsnail <theepicsnail@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
   "dependencies": {
+    "sockjs": "~0.3.4",
     "requirejs": "~2.1.14",
-    "kineticjs": "~5.1.0",
-    "es6-promise": "~1.0.0"
+    "kineticjs": "~5.1.0"
   }
 }
