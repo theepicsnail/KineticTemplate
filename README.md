@@ -1,3 +1,3 @@
-npm install
-bower install
+npm install ;
+bower install ;
 node server.js
