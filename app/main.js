@@ -5,13 +5,7 @@ require.config({
     "sockjs": "/bower_components/sockjs/sockjs"
   }
 });
-require(["kinetic", "sockjs"],function(K, S) {
-  sock = new SockJS('http://' + document.domain + ':' + location.port + '/sjs');
-  sock.onopen = function() {
-    console.log('connected');
-    sock.send(JSON.stringify({"hello":"world"}));
-  };
-  sock.onmessage = function(msg) {
-    console.log('sock>', msg);
-  };
+
+require(["kinetic", "server"],function(K, s) {
+  console.log(s);
 });
