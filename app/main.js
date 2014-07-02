@@ -6,6 +6,6 @@ require.config({
   }
 });
 
-require(["kinetic", "server"],function(K, s) {
-  console.log(s);
+require(["stage", "server"],function(k, s) {
+
 });
