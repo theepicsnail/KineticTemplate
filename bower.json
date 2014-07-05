@@ -13,7 +13,6 @@
     "tests"
   ],
   "dependencies": {
-    "sockjs": "~0.3.4",
     "requirejs": "~2.1.14",
     "kineticjs": "~5.1.0"
   }

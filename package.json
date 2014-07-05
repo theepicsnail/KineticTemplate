@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "node-static": "^0.7.3",
-    "sockjs": "^0.3.9"
+    "eureca.io": "^0.5.11",
+    "express": "^4.5.0"
   }
 }
