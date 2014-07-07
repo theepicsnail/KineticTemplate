@@ -8,6 +8,7 @@ global.boxes = {
 
 // Client functions:
 global.clientFunctions = [
+  'check_date', //(timestamp)
   'init', //(conn.id)
   'update'//(box id, box)
 ];
@@ -51,6 +52,8 @@ function release(id) {
 
 // Actually bring up the server and all that nonsense
 function start_server() {
+  var start_time = new Date() | 0;
+
   var express = require('express');
   var app = express(app);
   var server = require('http').createServer(app);
@@ -68,6 +71,7 @@ function start_server() {
   });
   eureca.onConnect(function(conn) {
     var client = eureca.getClient(conn.id);
+    client.check_date(start_time);
     client.init(conn.id, global.boxes);
     global.clients.push(client);
   });
