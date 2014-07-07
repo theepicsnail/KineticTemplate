@@ -1,17 +1,19 @@
-/*
-  This is the client side of the bridge between the client and the server.
-  Its name is 'server' because from the clients perspective, this is
-  doing stuff to/on/in response to the server
-*/
-define([], function(){
-  var client = new Eureca.Client();
-  console.log(client);
-  client.ready(function(proxy){
-    console.log("ready");
-  });
-  client.exports.init = function(id){
-    console.log('init', id);
+define(["connection!"], function(conn) {
+  // conn.local, conn.remote, conn.exports
+
+  conn.exports.init = function(a, boxes) {
+    console.log("init", a, boxes);
   };
 
-  return client;
+  conn.exports.update = function(box_id, box) {
+    console.log("update", box_id, box);
+  };
+
+  function API() {
+  }
+  console.log(conn);
+  API.prototype.grab = conn.remote.grab;
+  API.prototype.release = conn.remote.release;
+
+  return new API();
 });
