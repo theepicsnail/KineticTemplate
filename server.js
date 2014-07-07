@@ -1,8 +1,8 @@
 var global = {};
 global.clients = [];
 global.boxes = {
-  0: {x:10, y:10, w:10, h:10, c:'#FF0000', owner:undefined},
-  1: {x:15, y:15, w:10, h:10, c:'#0000FF', owner:undefined},
+  0: {x:10, y:10, w:10, h:10, c:'#FF0000', owner:null},
+  1: {x:15, y:15, w:10, h:10, c:'#0000FF', owner:null},
 };
 
 
@@ -29,7 +29,7 @@ function update(id, box) {
 
 function grab(id) {
   console.log("grab", id, this.connection.id);
-  if (global.boxes[id].owner === undefined) {
+  if (global.boxes[id].owner === null) {
     global.boxes[id].owner = this.connection.id;
     broadcast_update(id);
   }
@@ -42,10 +42,11 @@ function release(id) {
   var cid = this.connection.id;
   if (box !== undefined && box.owner === cid)
   {
-    box.owner = undefined;
+    box.owner = null;
     broadcast_update(id);
+    return true;
   }
-  return global.boxes[id].owner === this.connection.id;
+  return false;
 }
 
 // Actually bring up the server and all that nonsense
