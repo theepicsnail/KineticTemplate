@@ -30,5 +30,16 @@ define(["kinetic"], function(Kinetic){
   trashImg.src = '/res/trash.png';
   */
 
-  return {fg:fg,bg:bg,obj:stage};
+  return {
+    addBox: function(box) {
+      fg.add(new Kinetic.Rect({
+        x:box.x,
+        y:box.y,
+        width:box.w,
+        height:box.h,
+        fill:box.c
+      }));
+      fg.draw();
+    }
+  };
 });

@@ -5,6 +5,9 @@ require.config({
   }
 });
 
-require(["stage", "server"],function(k, s) {
-
+require(["stage", "game_server"],function(stage, server) {
+  server.create_box = function(boxid, box) {
+      stage.addBox(box);
+  };
+  server.init();
 });

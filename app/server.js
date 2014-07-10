@@ -12,19 +12,22 @@ define(["connection!"], function(conn) {
     }
   };
 
-  conn.exports.init = function(a, boxes) {
-    console.log("init", a, boxes);
+  console.log("Setting init 1");
+  conn.exports.init = function(){
+    console.log("init called", api.on.init);
+    api.on.init.apply(this, arguments);
   };
+  conn.exports.update = function(){api.on.update.apply(this, arguments);};
 
-  conn.exports.update = function(box_id, box) {
-    console.log("update", box_id, box);
+  var api = {
+    init: conn.remote.init,
+    grab: conn.remote.grab,
+    release: conn.remote.release,
+    on: {
+      init: function(){console.log("init", arguments);},
+      update: function(){console.log("update", arguments);},
+    }
   };
-
-  function API() {
-  }
-  console.log(conn);
-  API.prototype.grab = conn.remote.grab;
-  API.prototype.release = conn.remote.release;
-
-  return new API();
+  console.log("returnning server");
+  return api;
 });

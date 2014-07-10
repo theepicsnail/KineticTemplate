@@ -1,15 +1,15 @@
 var global = {};
 global.clients = [];
 global.boxes = {
-  0: {x:10, y:10, w:10, h:10, c:'#FF0000', owner:null},
-  1: {x:15, y:15, w:10, h:10, c:'#0000FF', owner:null},
+  0: {x:100, y:100, w:100, h:100, c:'#FF0000', owner:null},
+  1: {x:150, y:150, w:100, h:100, c:'#0000FF', owner:null},
 };
 
 
 // Client functions:
 global.clientFunctions = [
   'check_date', //(timestamp)
-  'init', //(conn.id)
+  'init', //(conn.id, boxes)
   'update'//(box id, box)
 ];
 
@@ -35,6 +35,10 @@ function grab(id) {
     broadcast_update(id);
   }
   return global.boxes[id].owner === this.connection.id;
+}
+
+function init() {
+  this.connection.client.init(this.connection.id, global.boxes);
 }
 
 function release(id) {
@@ -72,14 +76,14 @@ function start_server() {
   eureca.onConnect(function(conn) {
     var client = eureca.getClient(conn.id);
     client.check_date(start_time);
-    client.init(conn.id, global.boxes);
     global.clients.push(client);
   });
 
   eureca.exports = {
     grab: grab,
     release: release,
-    update: update
+    update: update,
+    init: init
   };
 
   eureca.attach(server);
