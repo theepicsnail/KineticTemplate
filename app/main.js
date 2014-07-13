@@ -5,9 +5,10 @@ require.config({
   }
 });
 
-require(["stage", "game_server"],function(stage, server) {
-  server.create_box = function(boxid, box) {
-      stage.addBox(box);
-  };
-  server.init();
+require(["stage", "state"],function(stage, state) {
+  //server.create_box = function(boxid, box) {
+  //    stage.addBox(box);
+  //};
+  //server.init();
+  console.log(state);
 });

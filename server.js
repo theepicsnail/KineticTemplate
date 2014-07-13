@@ -1,8 +1,8 @@
 var global = {};
 global.clients = [];
-global.boxes = {
-  0: {x:100, y:100, w:100, h:100, c:'#FF0000', owner:null},
-  1: {x:150, y:150, w:100, h:100, c:'#0000FF', owner:null},
+global.state = {
+  0: {owner:null, val:{x:100, y:100, w:100, h:100, c:'#FF0000'}},
+  1: {owner:null, val:{x:150, y:150, w:100, h:100, c:'#0000FF'}},
 };
 
 
@@ -13,42 +13,58 @@ global.clientFunctions = [
   'update'//(box id, box)
 ];
 
-function broadcast_update(id) {
+function broadcast_update(key) {
+  console.log("broadcast_udate");
   for(cid = 0 ; cid < global.clients.length ; cid++) {
-    global.clients[cid].update(id, global.boxes[id]);
+    console.log("  " + cid + ":" + key +", ", global.state[key]);
+    global.clients[cid].update(key, global.state[key]);
   }
 }
 
-function update(id, box) {
-  console.log("update", id, box, this.connection.id);
-  var cid;
-  if (global.boxes[id].owner === this.connection.id) {
-    global.boxes[id] = box;
-    broadcast_update(id);
+function set(key, value) {
+  console.log("update", key, value, this.connection.id, global.state);
+  if (global.state[key] === undefined) {
+    global.state[key] = {owner:null, val:value};
+    broadcast_update(key);
+    return true;
   }
+  if (global.state[key].owner === null ||
+      global.state[key].owner === this.connection.id) {
+    global.state[key].val = value;
+    broadcast_update(key);
+    return true;
+  }
+  return false;
 }
 
-function grab(id) {
-  console.log("grab", id, this.connection.id);
-  if (global.boxes[id].owner === null) {
-    global.boxes[id].owner = this.connection.id;
-    broadcast_update(id);
+function grab(key) {
+  console.log("grab", key, this.connection.id);
+  if (global.state[key] === undefined) {
+    return false;
   }
-  return global.boxes[id].owner === this.connection.id;
+
+  if (global.state[key].owner === null) {
+    global.state[key].owner = this.connection.id;
+    broadcast_update(key);
+    return true;
+  }
+
+  return global.state[id].owner === this.connection.id;
 }
 
 function init() {
-  this.connection.client.init(this.connection.id, global.boxes);
+  console.log("init", this.connection.id);
+  this.connection.client.init(this.connection.id, global.state);
 }
 
 function release(id) {
-  console.log("release", id, this.connection.id);
-  var box = global.boxes[id];
+  console.log("release", key, this.connection.id);
+  var box = global.state[key];
   var cid = this.connection.id;
   if (box !== undefined && box.owner === cid)
   {
     box.owner = null;
-    broadcast_update(id);
+    broadcast_update(key);
     return true;
   }
   return false;
@@ -82,7 +98,7 @@ function start_server() {
   eureca.exports = {
     grab: grab,
     release: release,
-    update: update,
+    set: set,
     init: init
   };
 

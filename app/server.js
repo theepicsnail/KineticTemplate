@@ -12,15 +12,16 @@ define(["connection!"], function(conn) {
     }
   };
 
-  console.log("Setting init 1");
   conn.exports.init = function(){
-    console.log("init called", api.on.init);
     api.on.init.apply(this, arguments);
   };
-  conn.exports.update = function(){api.on.update.apply(this, arguments);};
+  conn.exports.update = function(){
+    api.on.update.apply(this, arguments);
+  };
 
   var api = {
     init: conn.remote.init,
+    set: conn.remote.set,
     grab: conn.remote.grab,
     release: conn.remote.release,
     on: {
