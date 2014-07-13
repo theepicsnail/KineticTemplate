@@ -10,5 +10,18 @@ require(["stage", "state"],function(stage, state) {
   //    stage.addBox(box);
   //};
   //server.init();
-  console.log(state);
+
+  var role = "player1";
+  state.grab(role)
+  .catch(function() {
+    role = "player2";
+    return state.grab(role);
+  })
+  .catch(function() {
+    role = "observer";
+  })
+  .then(function(){
+    console.log("role:", role);
+  });
+
 });

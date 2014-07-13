@@ -21,7 +21,12 @@ define(["server"], function(server) {
   State.prototype = {
     grab: function(key) {
       return new Promise((function(ret, thr){
-        this.server.grab(key).onReady(ret);
+        this.server.grab(key).onReady(function(grabbed){
+          if(grabbed)
+            ret(true);
+          else
+            thr(false);
+        });
       }).bind(this));
     },
     release: function(key) {

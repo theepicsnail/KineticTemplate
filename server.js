@@ -40,7 +40,7 @@ function set(key, value) {
 function grab(key) {
   console.log("grab", key, this.connection.id);
   if (global.state[key] === undefined) {
-    return false;
+    global.state[key] = {owner:null, val:null}; // Grabbing non-exiting values creates them with null
   }
 
   if (global.state[key].owner === null) {
@@ -49,7 +49,7 @@ function grab(key) {
     return true;
   }
 
-  return global.state[id].owner === this.connection.id;
+  return global.state[key].owner === this.connection.id;
 }
 
 function init() {
