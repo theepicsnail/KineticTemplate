@@ -20,6 +20,13 @@ define(["kinetic"], function(Kinetic){
   }
 
   Player.prototype = {
+    getUpdateFunc: function(){
+      return (function(record) {
+        console.log(record);
+        this.setY(record.val.y - 100);
+        this.getLayer().draw();
+      }).bind(this);
+    }
   };
 
   Kinetic.Util.extend(Player, Kinetic.Group);

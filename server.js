@@ -16,7 +16,7 @@ global.clientFunctions = [
 function broadcast_update(key) {
   console.log("broadcast_udate");
   for(cid = 0 ; cid < global.clients.length ; cid++) {
-    console.log("  " + cid + ":" + key +", ", global.state[key]);
+    console.log("  " + global.clients[cid] + ":" + key +", ", global.state[key]);
     global.clients[cid].update(key, global.state[key]);
   }
 }
@@ -91,6 +91,7 @@ function start_server() {
   });
   eureca.onConnect(function(conn) {
     var client = eureca.getClient(conn.id);
+    console.log("Connect:", conn.id);
     client.check_date(start_time);
     global.clients.push(client);
   });

@@ -25,15 +25,22 @@ require(["stage", "state", "player"],function(stage, state, Player) {
   })
   .then(function(){
     console.log("role:", role);
-    if(paddle) setupPaddle(paddle);
+    if(paddle) setupPaddle(paddle, role);
   });
 
+  state.on('player1', Player.P1.getUpdateFunc());
+  state.on('player2', Player.P2.getUpdateFunc());
   stage.fg.add(Player.P1);
   stage.fg.add(Player.P2);
   Player.P1.draw();
   Player.P2.draw();
-  console.log(Player.P1);
-  function setupPaddle(paddle) {
-   // paddle
+  function setupPaddle(paddle, player) {
+    document.addEventListener('touchstart', function(e){e.preventDefault();}, false);
+    document.addEventListener('touchmove', function(e) {
+      var cur = state.get(player) || {};
+      console.log(cur);
+      cur.y = e.touches[0].clientY;
+      state.set(player, cur);
+    }, false);
   }
 });

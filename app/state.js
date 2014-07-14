@@ -41,7 +41,7 @@ define(["server"], function(server) {
       }).bind(this));
     },
     get: function(key) {
-      return this.local_data[key];
+      return this.local_data[key].val;
     },
     on: function(key, callback) {
       this.callbacks[key] = (this.callbacks[key] || []).concat([callback]);
