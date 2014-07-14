@@ -22,7 +22,8 @@ define(["kinetic"], function(Kinetic){
   Player.prototype = {
     getUpdateFunc: function(){
       return (function(record) {
-        console.log(record);
+        if(record.val === null) // Someone grabbed the paddle.
+          return;
         this.setY(record.val.y - 100);
         this.getLayer().draw();
       }).bind(this);
