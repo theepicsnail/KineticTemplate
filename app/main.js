@@ -37,10 +37,8 @@ require(["stage", "state", "player"],function(stage, state, Player) {
   function setupPaddle(paddle, player) {
     document.addEventListener('touchstart', function(e){e.preventDefault();}, false);
     document.addEventListener('touchmove', function(e) {
-      var cur = state.get(player) || {};
-      console.log(cur);
-      cur.y = e.touches[0].clientY;
-      state.set(player, cur);
+      var next = {y:e.touches[0].clientY};
+      state.set(player, next);
     }, false);
   }
 });
