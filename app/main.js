@@ -40,5 +40,8 @@ require(["stage", "state", "player"],function(stage, state, Player) {
       var next = {y:e.touches[0].clientY};
       state.set(player, next);
     }, false);
+    document.addEventListener('mousemove', function(e) {
+      state.set(player, {y: e.y});
+    }, false);
   }
 });
