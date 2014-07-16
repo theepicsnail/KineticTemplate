@@ -36,7 +36,6 @@ define(["server"], function(server) {
     },
     set: function(key, value) {
       return new Promise((function(ret, thr) {
-        console.log("Calling server.set", key, value);
         this.server.set(key, value).onReady(ret);
       }).bind(this));
     },
