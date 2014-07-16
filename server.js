@@ -37,7 +37,7 @@ function set(key, value) {
   return false;
 }
 
-function grab(key) {
+function grab(key, id) {
   console.log("grab", key, this.connection.id);
   if (global.state[key] === undefined) {
     global.state[key] = {owner:null, val:null}; // Grabbing non-exiting values creates them with null
@@ -57,10 +57,10 @@ function init() {
   this.connection.client.init(this.connection.id, global.state);
 }
 
-function release(id) {
-  console.log("release", key, this.connection.id);
+function release(id, cid) {
+  cid = cid || this.connection.id;
+  console.log("release", key, cid);
   var box = global.state[key];
-  var cid = this.connection.id;
   if (box !== undefined && box.owner === cid)
   {
     box.owner = null;
@@ -94,6 +94,11 @@ function start_server() {
     console.log("Connect:", conn.id);
     client.check_date(start_time);
     global.clients.push(client);
+  });
+  eureca.onDisconnect(function(conn) {
+    for(key in global.state) {
+      release(key, conn.id); // try releasing any state this connection's holding
+    }
   });
 
   eureca.exports = {
