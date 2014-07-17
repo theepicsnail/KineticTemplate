@@ -13,7 +13,6 @@
     "tests"
   ],
   "dependencies": {
-    "requirejs": "~2.1.14",
-    "kineticjs": "~5.1.0"
+    "requirejs": "~2.1.14"
   }
 }
