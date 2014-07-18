@@ -1,8 +1,40 @@
+var exec = require('child_process').spawn;
+
+var cmd = null;
+function run(input) {
+
+  if (cmd !== null) {
+    cmd.kill();
+    set('outputs', {stdout:"Killed", stderr:""});
+  }
+  set('outputs', {stdout:"", stderr:""});
+  cmd = exec('echo', ['>>', input, '<<']);
+
+  cmd.stderr.on('data', function(data) {
+    outputs = get('outputs');
+    outputs.stderr += data;
+    set('outputs', outputs);
+  });
+
+  cmd.stdout.on('data', function(data) {
+    outputs = get('outputs');
+    outputs.stdout += data;
+    set('outputs', outputs);
+  });
+
+  cmd.on('close', function(code) {
+    console.log('close:');
+    console.log(code);
+    cmd = null;
+  });
+}
+
+
 var global = {};
 global.clients = [];
 global.state = {
-  0: {owner:null, val:{x:100, y:100, w:100, h:100, c:'#FF0000'}},
-  1: {owner:null, val:{x:150, y:150, w:100, h:100, c:'#0000FF'}},
+  input: {owner:null, val:""},
+  outputs: {owner:null, val:{stdout: "", stderr: ""}}
 };
 
 
@@ -10,7 +42,7 @@ global.state = {
 global.clientFunctions = [
   'check_date', //(timestamp)
   'init', //(conn.id, boxes)
-  'update'//(box id, box)
+  'update'//(key, value)
 ];
 
 function broadcast_update(key) {
@@ -20,16 +52,21 @@ function broadcast_update(key) {
     global.clients[cid].update(key, global.state[key]);
   }
 }
+function get(key) {
+  return global.state[key].val;
+}
 
 function set(key, value) {
-  console.log("update", key, value, this.connection.id, global.state);
+  var id = (this.connection && this.connection.id) || "SERVER";
+  if(key == "input") run(value);
+  console.log("update", key, value, id, global.state);
   if (global.state[key] === undefined) {
     global.state[key] = {owner:null, val:value};
     broadcast_update(key);
     return true;
   }
   if (global.state[key].owner === null ||
-      global.state[key].owner === this.connection.id) {
+      global.state[key].owner === id) {
     global.state[key].val = value;
     broadcast_update(key);
     return true;
