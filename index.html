@@ -1,7 +1,30 @@
 <!DOCTYPE HTML>
 <html><head>
-<style> body { background: #ABC;
-bottom: 0;left: 0;overflow: hidden;position: absolute;right: 0;top: 0;margin: 0px;padding: 0px;}</style>
+<style>
+
+body {
+  background: #ABC;
+  bottom: 0;left: 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;top: 0;
+  margin: 0px;padding: 0px;
+}
+
+textarea {
+  border: 0;
+  padding: 0;
+  width: 100%;
+  height:100%;
+}
+
+.ui-layout-pane-west {
+  padding:0;
+}
+</style>
 <script src="eureca.js"></script>
 <script data-main="app/main" src="bower_components/requirejs/require.js"></script>
-</head><body id='body'></body></html>
+</head><body id='body'>
+<div class="ui-layout-west"><textarea id='input'></textarea></div>
+<div class="ui-layout-center"><span id='output'></div></div>
+</body></html>
