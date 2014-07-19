@@ -21,10 +21,21 @@ textarea {
 .ui-layout-pane-west {
   padding:0;
 }
+#editor {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
 </style>
 <script src="eureca.js"></script>
 <script data-main="app/main" src="bower_components/requirejs/require.js"></script>
 </head><body id='body'>
-<div class="ui-layout-west"><textarea id='input'></textarea></div>
+<div class="ui-layout-west">
+  <div id='editor'>function(foo){}</div>
+  <textarea id='input'></textarea>
+</div>
 <div class="ui-layout-center"><span id='output'></div></div>
 </body></html>
